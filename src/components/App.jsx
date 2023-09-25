@@ -9,11 +9,19 @@ export class App extends Component {
     bad: 0,
   };
 
-  addFeedback = (option, event) => {
-    // console.log(event.target)
+  addFeedback = (option) => {
     this.setState(prevState => ({
       [option]: prevState[option] + 1,
     }));
+  };
+  countTotalFeedback = (good, neutral, bad) => {
+    return good + neutral + bad;
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    const { good, neutral, bad } = this.state;
+    const total = this.countTotalFeedback(good, neutral, bad);
+    return Math.round((good / total) * 100) || 0;
   };
 
   render() {
@@ -30,6 +38,8 @@ export class App extends Component {
         good={good}
         neutral={neutral}
         bad={bad}
+        total={this.countTotalFeedback(good, neutral, bad)}
+        positivePercentage={this.countPositiveFeedbackPercentage()}
           />
       </div>
     );
